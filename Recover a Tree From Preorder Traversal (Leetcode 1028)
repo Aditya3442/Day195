@@ -1,0 +1,31 @@
+class Solution {
+    int index = 0;
+    public TreeNode recur(int depth , String traversal) {
+        if(index >= traversal.length())
+            return null;
+
+        int j = index;
+        while(j < traversal.length() && traversal.charAt(j) == '-') {
+            j++;
+        }
+        int dash = j - index;
+        if(depth != dash)
+          return null;
+        index = j;
+        int num = 0;
+        while(index < traversal.length() && Character.isDigit(traversal.charAt(index))) {
+            num = (num * 10) + (traversal.charAt(index) - '0');
+            index++;
+        }
+
+        TreeNode root = new TreeNode(num);
+        root.left = recur(depth + 1 , traversal);
+        root.right = recur(depth + 1 , traversal);
+
+        return root;
+        
+    }
+    public TreeNode recoverFromPreorder(String traversal) {
+        return recur(0 , traversal);
+    }
+}
